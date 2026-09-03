@@ -32,7 +32,7 @@
     },
     "consent": {
       "title": "陪你走得更远 🌿",
-      "description": "我们有一个美好的愿望：让这个 App 能长久地陪伴你，越走越稳，越走越远。\n\n成长的路上，它偶尔也会踉跄。而我们，想做那个在它跌倒时，轻轻扶一把的人。\n所以，我们需要收集一点崩溃日志——只是出错时的技术信息，用来找到问题，陪它继续向前。\n\n请放心，你的隐私，我们一概不碰。\n\n这些日志只用于优化体验，你随时可以在「设置 → 关于」里关闭。\n\n如果你有任何想法，或遇到了什么困扰，也欢迎写信到 [zuorn@qq.com](mailto:zuorn@qq.com)。\n你的每一句话，我们都放在心上。",
+      "description": "我们有一个美好的愿望：让这个 App 能长久地陪伴你，越走越稳，越走越远。\n\n成长的路上，它偶尔也会踉跄。而我们，想做那个在它跌倒时，轻轻扶一把的人。\n所以，我们需要收集一点崩溃日志——只是出错时的技术信息，用来找到问题，陪它继续向前。\n\n请放心，你的隐私，我们一概不碰。\n\n这些日志只用于优化体验，你随时可以在「设置 → 关于」里关闭。\n\n如果你有任何想法，或遇到了什么困扰，也欢迎写信到 [776402711@qq.com](mailto:776402711@qq.com)。\n你的每一句话，我们都放在心上。",
       "accept": "好呀，一起走",
       "decline": "不了，谢谢",
       "privacy": "查看隐私策略",
@@ -52,7 +52,7 @@
         "controlTitle": "5. 如何关闭",
         "controlBody": "你可以随时在「设置 → 关于 → 陪你走得更远」中关闭统计。关闭后应用将不再发送任何数据，但已产生的历史统计数据不会追溯删除。",
         "contactTitle": "6. 联系我们",
-        "contactBody": "如果你对本隐私策略有任何疑问，欢迎写信到 [zuorn@qq.com](mailto:zuorn@qq.com)，或在 [GitHub 仓库 Rankine-L/QuillNote](https://github.com/Rankine-L/QuillNote) 中提出 issue。"
+        "contactBody": "如果你对本隐私策略有任何疑问，欢迎写信到 [776402711@qq.com](mailto:776402711@qq.com)，或在 [GitHub 仓库 Rankine-L/QuillNote](https://github.com/Rankine-L/QuillNote) 中提出 issue。"
       }
     },
     "tabs": {

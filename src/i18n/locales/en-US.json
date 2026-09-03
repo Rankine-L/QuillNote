@@ -32,7 +32,7 @@
     },
     "consent": {
       "title": "Together, we'll go the distance 🌿",
-      "description": "We have a simple wish: for this app to stay with you for the long run, growing steadier with every step.\n\nAlong the way, it may stumble from time to time. And we'd like to be the one who gently helps it back up.\nThat's why we want to collect a little crash log — just the technical details from the moment something goes wrong, so we can find the issue and keep moving forward.\n\nRest assured: your privacy stays completely untouched.\n\nThese logs are used only to improve your experience, and you can turn them off anytime in Settings → About.\n\nIf you have any thoughts or run into any trouble, feel free to write to us at [zuorn@qq.com](mailto:zuorn@qq.com).\nEvery word you share means a lot to us.",
+      "description": "We have a simple wish: for this app to stay with you for the long run, growing steadier with every step.\n\nAlong the way, it may stumble from time to time. And we'd like to be the one who gently helps it back up.\nThat's why we want to collect a little crash log — just the technical details from the moment something goes wrong, so we can find the issue and keep moving forward.\n\nRest assured: your privacy stays completely untouched.\n\nThese logs are used only to improve your experience, and you can turn them off anytime in Settings → About.\n\nIf you have any thoughts or run into any trouble, feel free to write to us at [776402711@qq.com](mailto:776402711@qq.com).\nEvery word you share means a lot to us.",
       "accept": "Sure, let's go",
       "decline": "No thanks",
       "privacy": "View Privacy Policy",
@@ -52,7 +52,7 @@
         "controlTitle": "5. How to Disable",
         "controlBody": "You can turn off analytics anytime in Settings → About → Together, we'll go the distance. Once disabled, the app sends no further data; previously collected statistics are not retroactively deleted.",
         "contactTitle": "6. Contact Us",
-        "contactBody": "If you have any questions about this privacy policy, feel free to write to us at [zuorn@qq.com](mailto:zuorn@qq.com), or open an issue in the [GitHub repository Rankine-L/QuillNote](https://github.com/Rankine-L/QuillNote)."
+        "contactBody": "If you have any questions about this privacy policy, feel free to write to us at [776402711@qq.com](mailto:776402711@qq.com), or open an issue in the [GitHub repository Rankine-L/QuillNote](https://github.com/Rankine-L/QuillNote)."
       }
     },
     "tabs": {
