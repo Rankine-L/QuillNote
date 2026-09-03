@@ -7,7 +7,7 @@
 
 [中文](README_ZH.md) | English
 
-![image.png](website/assets/image-20260815-221141.png)
+![QuillNote](website/assets/banner-quillnote-en.png)
 
 ---
 
