@@ -108,6 +108,11 @@ function isMarkdownFile(fileName: string): boolean {
   return ["md", "markdown", "mdx"].includes(ext);
 }
 
+// 格式化保存时间（本地时间 HH:mm:ss）
+function formatSavedTime(date = new Date()): string {
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+}
+
 // 命令面板显示快捷键：优先取 commandDisplay，其次取 editor，再取 app 配置
 function getCommandShortcut(id: string): string | undefined {
   const display = (shortcutsConfig.commandDisplay as Record<string, string>)[id];
@@ -125,6 +130,7 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
   const [fileName, setFileName] = useState<string | null>(null);
   const [modified, setModified] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "modified" | "saved">("idle");
+  const [lastSavedTime, setLastSavedTime] = useState<string | null>(null);
   const [editorSettings, setEditorSettings] = useState<EditorSettings>(() => loadEditorSettings());
   const [viewMode, setViewMode] = useState<EditorMode>(editorSettings.defaultMode);
   const [typewriterMode, setTypewriterMode] = useState(() => {
@@ -357,7 +363,7 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
       return -1;
     }
   });
-  const [sidebarOpen, setSidebarOpen] = useState(!initialFilePath);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   // 外部启动（双击 .md 文件）解析状态：settled = 外部文件二次拉取兜底已完成，
   // 可以最终决定主窗口可见性（避免竞态提前关闭）
   const [externalLaunchSettled, setExternalLaunchSettled] = useState(false);
@@ -589,21 +595,15 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
       // 窗口发消息触发 "PostMessage failed（0x80070578 无效的窗口句柄）"
       (async () => {
         try {
-          document.title = "DBG:S1-open";
           await invoke("open_vault_manager_window");
-          document.title = "DBG:S2-notify";
           await invoke("notify_main_closing");
-          document.title = "DBG:S3-close";
           await getCurrentWindow().close();
-          document.title = "DBG:S4-closed";
         } catch (e) {
-          document.title = "DBG:CATCH-" + String(e);
           console.error("打开管理仓库窗口失败", e);
           getCurrentWindow().show();
         }
       })();
     } else {
-      document.title = "DBG:ELSE-SHOW";
       getCurrentWindow().show();
     }
   }, [externalLaunchSettled, hasExternalFile]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -683,6 +683,7 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
         setFileName(initialFilePath);
         setModified(false);
         setSaveStatus("idle");
+        setLastSavedTime(null);
         pushContentToEditor(text);
       })
       .catch((e) => {
@@ -891,6 +892,7 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
       savedContentRef.current = contentRef.current;
       setModified(false);
       setSaveStatus("saved");
+      setLastSavedTime(formatSavedTime());
       // 更新链接索引和标签索引
       const activeVault = activeVaultIndex >= 0 ? vaults[activeVaultIndex] : null;
       if (activeVault) {
@@ -901,6 +903,7 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
       return true;
     } catch (e) {
       console.error(t("app.error.saveFailed"), e);
+      alert(`${t("app.error.saveFailed")} ${e instanceof Error ? e.message : String(e)}`);
       return false;
     }
   }, []);
@@ -928,7 +931,7 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
     return () => window.removeEventListener("keydown", handler);
   }, [handleSave, canvasFilePath]);
 
-  // 自动保存：内容变化且有已保存的文件路径时，延迟 1 秒自动写入
+  // 自动保存：内容变化且有已保存的文件路径时，延迟 5 分钟自动写入
   useEffect(() => {
     if (!modified || !fileNameRef.current) return;
     const timer = setTimeout(async () => {
@@ -943,6 +946,7 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
         savedContentRef.current = contentRef.current;
         setModified(false);
         setSaveStatus("saved");
+        setLastSavedTime(formatSavedTime());
         // 更新链接索引和标签索引
         const activeVault = activeVaultIndex >= 0 ? vaults[activeVaultIndex] : null;
         if (activeVault) {
@@ -953,7 +957,7 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
       } catch (e) {
         console.error(t("app.error.autoSaveFailed"), e);
       }
-    }, 1000);
+    }, 5 * 60 * 1000);
     return () => clearTimeout(timer);
   }, [content, modified]);
 
@@ -1066,8 +1070,8 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
   // 处理系统文件关联打开（双击 .md 文件）：
   // 折叠侧栏（与新窗口打开体验一致），激活文件所属仓库，然后打开文件
   const handleExternalOpenFile = useCallback((filePath: string) => {
-    // 折叠侧栏
-    setSidebarOpen(false);
+    // 默认展开侧栏
+    setSidebarOpen(true);
 
     // 如果文件位于已注册仓库内，激活对应仓库（文件树选中状态、链接索引等随之生效）
     const normalize = (p: string) => p.replace(/\\/g, "/").replace(/\/+$/, "");
@@ -1158,6 +1162,7 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
       setFileName(path);
       setModified(false);
       setSaveStatus("idle");
+      setLastSavedTime(null);
       setPreviewFilePath(null); // 关闭预览模式
       setCanvasFilePath(null); // 关闭白板模式
       setIsCurrentFileMarkdown(isMarkdownFile(path));
@@ -1904,7 +1909,14 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
   const pendingQueryRef = useRef<string | null>(null);
   const pendingHeadingRef = useRef<string | null>(null);
   const openFileGenerationRef = useRef(0);
-  const title = fileName && typeof fileName === "string" ? fileName.split(/[/\\]/).pop() || "untitled.md" : "Tydora";
+  const title = fileName && typeof fileName === "string" ? fileName.split(/[/\\]/).pop() || "untitled.md" : "QuillNote";
+
+  // 窗口/任务栏标题跟随当前文件名
+  useEffect(() => {
+    const display = fileName ? `${title} - QuillNote` : "QuillNote - Markdown Editor";
+    document.title = display;
+    getCurrentWindow().setTitle(display).catch(() => {});
+  }, [title, fileName]);
 
   // ── 导出 ──
   const handleExport = async (format: ExportFormat) => {
@@ -2087,7 +2099,7 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
         <main className={`editor-container${(autoHideTopbar || (!sidebarOpen && autoHideTopbarOnCollapse)) ? ' sidebar-collapsed' : ''}`}>
           <div className="editor-topbar-trigger" />
           {/* 顶部透明栏 */}
-          <div className="editor-topbar">
+          <div className="editor-topbar" data-tauri-drag-region="deep">
             <div className="editor-topbar-left">
               <button className="sidebar-toggle-btn" onClick={handleSidebarToggle} title={sidebarOpen ? t("app.toolbar.collapseSidebar") : t("app.toolbar.expandSidebar")}>
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2105,6 +2117,30 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
                   )}
                 </svg>
               </button>
+              <button
+                type="button"
+                className="save-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSave();
+                }}
+                title={t("app.toolbar.save")}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                  <polyline points="17 21 17 13 7 13 7 21" />
+                  <polyline points="7 3 7 8 15 8" />
+                </svg>
+              </button>
+              <span className={`save-status${modified ? " is-modified" : ""}`}>
+                {modified
+                  ? t("app.toolbar.unsaved")
+                  : lastSavedTime
+                    ? `${t("app.toolbar.saved")} ${lastSavedTime}`
+                    : fileName
+                      ? t("app.toolbar.notModified")
+                      : ""}
+              </span>
               {updateInfo && !updateDownloading && (
                 <button className="update-btn" onClick={handleUpdateDownload} title={`New version v${updateInfo.version}`}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -2128,7 +2164,7 @@ function App({ initialFilePath, initialVaultPath }: { initialFilePath?: string |
                 </div>
               )}
             </div>
-            <span className="editor-file-name" title={fileName || "Tydora"}>
+            <span className="editor-file-name" title={fileName || "QuillNote"}>
               {title}
               <span className={`traffic-light traffic-light--${fileName ? saveStatus : "idle"}`} />
             </span>

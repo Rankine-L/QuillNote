@@ -1,4 +1,4 @@
-# Tydora 技术架构文档
+# QuillNote 技术架构文档
 
 ## 目录
 
@@ -18,7 +18,7 @@
 
 ## 项目概述
 
-Tydora 是一款基于 Tauri v2 + React 19 构建的桌面 Markdown 编辑器，支持 WYSIWYG（所见即所得）和源码两种编辑模式，以及基于"仓库（Vault）"概念的文件管理。
+QuillNote 是一款基于 Tauri v2 + React 19 构建的桌面 Markdown 编辑器，支持 WYSIWYG（所见即所得）和源码两种编辑模式，以及基于"仓库（Vault）"概念的文件管理。
 
 ### 核心特性
 
@@ -649,8 +649,8 @@ flowchart LR
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/zuorn/Tydora.git
-cd Tydora
+git clone https://github.com/Rankine-L/QuillNote.git
+cd QuillNote
 
 # 2. 安装依赖
 npm install
@@ -676,7 +676,7 @@ npm run tauri
 ### 项目结构
 
 ```
-Tydora/
+QuillNote/
 ├── src/                          # 前端源码
 │   ├── App.tsx                   # 应用主组件
 │   ├── main.tsx                  # 入口

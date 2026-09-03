@@ -198,7 +198,7 @@ export default function MindmapWindow() {
 
   return (
     <div className="mindmap-window">
-      <div className="mindmap-window-titlebar" data-tauri-drag-region>
+      <div className="mindmap-window-titlebar" data-tauri-drag-region="deep">
         <span className="mindmap-window-title">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <path d="M20 4a1 1 0 0 1 0 2h-2.7a7.4 7.4 0 0 0-7.2 6H20a1 1 0 0 1 0 2h-9.9a7.4 7.4 0 0 0 7.2 6H20a1 1 0 0 1 0 2h-2.7a9.4 9.4 0 0 1-9.2-8H4a1 1 0 0 1 0-2h4.1a9.4 9.4 0 0 1 9.2-8H20z" />

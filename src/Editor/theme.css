@@ -826,6 +826,14 @@
   font-weight: 600;
 }
 
+/* 表格单元格选中（跨格选择） */
+.tiptap-editor td.selectedCell,
+.tiptap-editor th.selectedCell {
+  background: color-mix(in srgb, var(--accent, #2563eb) 14%, transparent) !important;
+  outline: 2px solid var(--accent, #2563eb);
+  outline-offset: -1px;
+}
+
 /* 图片 */
 .tiptap-editor img {
   max-width: 100%;

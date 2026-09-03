@@ -1,4 +1,4 @@
-# Tydora 网站免费 CDN 加速方案调研
+# QuillNote 网站免费 CDN 加速方案调研
 
 > 调研时间：2026-08-17（含实测踩坑后的修正）
 > 结论先行：**腾讯云 EdgeOne Pages（免费）已实测部署成功，但"免费 + 无域名 + 国内加速"三者存在硬冲突，见文末"实测修正"**
@@ -11,13 +11,13 @@
 |------|------|
 | 网站类型 | 纯静态站（`markdown-publish` 生成文档站 + 落地页） |
 | 构建产物 | `website/site/` |
-| 当前托管 | GitHub Pages（`zuorn.github.io/Tydora`） |
+| 当前托管 | GitHub Pages（`Rankine-L.github.io/QuillNote`） |
 | 部署方式 | GitHub Actions（`.github/workflows/deploy-docs.yml`） |
 | 语言 | 中英双语（`/` 与 `/en/`） |
 | 埋点 | Umami Cloud（`website/analytics/snippet.html`） |
-| 路径规范 | `baseHref = /Tydora/`（因部署在 GitHub Pages 项目页的子路径下） |
+| 路径规范 | `baseHref = /QuillNote/`（因部署在 GitHub Pages 项目页的子路径下） |
 
-**核心痛点**：GitHub Pages 的 `github.io` 域名在国内访问不稳定、速度慢，而 Tydora 的用户以国内为主。需要 CDN 加速国内访问，且要求免费。
+**核心痛点**：GitHub Pages 的 `github.io` 域名在国内访问不稳定、速度慢，而 QuillNote 的用户以国内为主。需要 CDN 加速国内访问，且要求免费。
 
 ---
 
@@ -55,10 +55,10 @@
 
 ### 需要适配的点（重要）
 
-现有构建链是为 GitHub Pages 子路径 `/Tydora/` 定制的，迁移到 EdgeOne（根路径部署）需要两处调整：
+现有构建链是为 GitHub Pages 子路径 `/QuillNote/` 定制的，迁移到 EdgeOne（根路径部署）需要两处调整：
 
-1. **`baseHref`**：`website/docs_zh/markdown-publish.config.json` 中 `baseHref: "/Tydora/"` 改为 `"/"`，英文版同理。
-2. **`copy-landing.mjs` 的路径前缀**：脚本硬编码了 `href="/Tydora..."` 替换逻辑（第 65-68 行），需改为根路径 `/`。
+1. **`baseHref`**：`website/docs_zh/markdown-publish.config.json` 中 `baseHref: "/QuillNote/"` 改为 `"/"`，英文版同理。
+2. **`copy-landing.mjs` 的路径前缀**：脚本硬编码了 `href="/QuillNote..."` 替换逻辑（第 65-68 行），需改为根路径 `/`。
 
 > 建议做法：在 EdgeOne 侧直接用**根路径部署**，并修改上述两处；GitHub Pages 可保留作为海外备用入口（需区分两套构建配置，或暂不改 GitHub Pages 的路径）。
 
@@ -113,6 +113,6 @@ EdgeOne Pages 的免费默认域名（`xxx.edgeone.cool`）在**中国大陆网�
 - `scripts/copy-landing.mjs`：落地页前缀由 `BASE_HREF` 环境变量控制
 - `scripts/deploy-edgeone.mjs`：一键构建 + 部署，支持 `--area=global|overseas` 切换加速区域
 - `package.json`：`docs:build` 走新入口，新增 `deploy:edgeone` 命令
-- 部署命令：`npm run deploy:edgeone -- --name=tydora [--area=global|overseas]`
+- 部署命令：`npm run deploy:edgeone -- --name=quillnote [--area=global|overseas]`
 
 > 后续操作见《免费域名申请与 EdgeOne 绑定指南》：`docs/free-domain-edgeone-guide.md`

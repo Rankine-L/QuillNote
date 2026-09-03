@@ -1,12 +1,12 @@
 [package]
-name = "tydora"
-version = "0.1.8"
+name = "quillnote"
+version = "1.1.8"
 description = "A modern Markdown editor built with Tauri"
 authors = ["you"]
 edition = "2021"
 
 [lib]
-name = "tydora_lib"
+name = "quillnote_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

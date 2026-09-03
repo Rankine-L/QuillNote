@@ -5,38 +5,38 @@ tags: [getting-started]
 
 # Quick Start
 
-Tydora is a modern desktop Markdown editor built with Tauri v2 + React 19. It features WYSIWYG live preview, dual-mode editing, WikiLink bidirectional links, a knowledge graph, mind maps, and a whiteboard canvas. This page gets you from installation to your first note in about 5 minutes.
+QuillNote is a modern desktop Markdown editor built with Tauri v2 + React 19. It features WYSIWYG live preview, dual-mode editing, WikiLink bidirectional links, a knowledge graph, mind maps, and a whiteboard canvas. This page gets you from installation to your first note in about 5 minutes.
 
-> [!NOTE] If you've used Obsidian or Typora, many interactions in Tydora will feel familiar: the Vault concept, bidirectional link syntax, and WYSIWYG editing all share the same philosophy.
+> [!NOTE] If you've used Obsidian or Typora, many interactions in QuillNote will feel familiar: the Vault concept, bidirectional link syntax, and WYSIWYG editing all share the same philosophy.
 
 ## 1. Installation
 
-1. Go to the [GitHub Releases](https://github.com/zuorn/Tydora/releases) page.
+1. Go to the [GitHub Releases](https://github.com/Rankine-L/QuillNote/releases) page.
 2. Download the appropriate installer for your system:
-   - **Windows**: `Tydora_x.x.x_x64-setup.exe`
-   - **macOS**: `Tydora_aarch64.app.tar.gz` (Apple Silicon) or `Tydora_x64.app.tar.gz` (Intel)
-   - **Linux**: `Tydora_amd64.AppImage`
+   - **Windows**: `QuillNote_x.x.x_x64-setup.exe`
+   - **macOS**: `QuillNote_aarch64.app.tar.gz` (Apple Silicon) or `QuillNote_x64.app.tar.gz` (Intel)
+   - **Linux**: `QuillNote_amd64.AppImage`
 3. Run the installer and follow the prompts.
-4. Launch Tydora.
+4. Launch QuillNote.
 
-> [!TIP] After the first launch, Tydora checks for available updates automatically. You can also manually check in Settings at any time.
+> [!TIP] After the first launch, QuillNote checks for available updates automatically. You can also manually check in Settings at any time.
 
 ## 2. Open a Vault
 
-Tydora uses the "Vault" concept to manage your notes. **Each vault corresponds to a local folder.** All Markdown files in the vault are included in the file tree, link index, and knowledge graph.
+QuillNote uses the "Vault" concept to manage your notes. **Each vault corresponds to a local folder.** All Markdown files in the vault are included in the file tree, link index, and knowledge graph.
 
 1. Click the **vault switcher** at the bottom of the left sidebar (showing the current vault name).
 2. Select "Add Vault."
 3. In the file picker, choose a folder as your note vault (or create an empty folder).
 4. After confirmation, the left sidebar immediately shows the **file tree** for that folder.
 
-> [!ABSTRACT] Vaults only record folder paths — Tydora does not move or copy your files. You can add multiple vaults at any time and manage them by project or topic. See [[04-File-Management/01-Vaults]].
+> [!ABSTRACT] Vaults only record folder paths — QuillNote does not move or copy your files. You can add multiple vaults at any time and manage them by project or topic. See [[04-File-Management/01-Vaults]].
 
 ## 3. Create Your First Note
 
 1. In the left **file tree**, right-click a target folder (or the root directory).
 2. Choose "New File."
-3. Enter a filename, e.g., `my-first-note` (the `.md` extension can be omitted — Tydora adds it automatically).
+3. Enter a filename, e.g., `my-first-note` (the `.md` extension can be omitted — QuillNote adds it automatically).
 4. Press `Enter` to confirm, and the editor opens the file.
 5. Start writing in Markdown!
 
@@ -44,7 +44,7 @@ Tydora uses the "Vault" concept to manage your notes. **Each vault corresponds t
 
 ## 4. Basic Editing
 
-Tydora offers two editing modes for different scenarios:
+QuillNote offers two editing modes for different scenarios:
 
 - **Live Preview (IR / WYSIWYG)**: See the final rendered result directly in the editor — what you see is what you get. Great for daily writing.
 - **Source Mode (SV)**: Shows plain Markdown text with syntax highlighting powered by CodeMirror 6. Great for fine-tuning formatting.

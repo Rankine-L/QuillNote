@@ -27,6 +27,22 @@ console.error = (...args: any[]) => {
   _origConsoleError(...args);
 };
 
+// 屏蔽 WebView2 默认右键菜单（“刷新/重新加载”等），避免用户误触导致整个界面重载；
+// 应用自己的自定义右键菜单仍可通过 React onContextMenu 正常打开。
+window.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+}, true);
+
+// 屏蔽 F5 / Ctrl+R / Cmd+R，防止误刷新导致应用“重启”
+window.addEventListener("keydown", (e) => {
+  if (
+    e.key === "F5" ||
+    ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "r")
+  ) {
+    e.preventDefault();
+  }
+}, true);
+
 // 屏蔽 React DevTools 下载提示（Tauri 桌面应用无法使用浏览器扩展）
 if (import.meta.env.DEV) {
   const originalLog = console.log;

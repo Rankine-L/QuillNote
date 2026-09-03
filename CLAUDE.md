@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-Tydora（代码内称为 "zmd"）是一个基于 Tauri v2 + React 19 的桌面 Markdown 编辑器。支持 WYSIWYG 和源码两种编辑模式，以及基于"仓库（Vault）"概念的文件管理。
+QuillNote（代码内称为 "zmd"）是一个基于 Tauri v2 + React 19 的桌面 Markdown 编辑器。支持 WYSIWYG 和源码两种编辑模式，以及基于"仓库（Vault）"概念的文件管理。
 
 ## 技术栈
 
@@ -109,7 +109,7 @@ npm run sync-version       # 将 VERSION 中的版本号同步到以下文件：
 
 ### 后端 (src-tauri/)
 
-**入口**: `main.rs` → 调用 `tydora_lib::run()`
+**入口**: `main.rs` → 调用 `quillnote_lib::run()`
 
 **源码结构**:
 
@@ -181,7 +181,7 @@ src-tauri/src/
 
 ### 多窗口架构
 
-Tydora 采用多窗口架构，主进程通过 Tauri Window API 管理多个独立窗口：
+QuillNote 采用多窗口架构，主进程通过 Tauri Window API 管理多个独立窗口：
 
 | 窗口     | 触发方式                      | 默认大小     | 说明           |
 | ------ | ------------------------- | -------- | ------------ |
@@ -204,7 +204,7 @@ Tydora 采用多窗口架构，主进程通过 Tauri Window API 管理多个独�
 
 ### Tauri 配置 (tauri.conf.json)
 
-- **标识符**: `com.tydora.editor`，版本 `0.0.5`
+- **标识符**: `com.quillnote.editor`，版本 `0.0.5`
 - **窗口**: 1200×800，居中，无装饰，可调整大小
 - **打包**: Windows (NSIS)、macOS (DMG)、Linux (AppImage)
 - **CSP**: 设为 `null`（允许加载本地资源）

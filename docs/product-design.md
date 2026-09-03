@@ -1,4 +1,4 @@
-# Tydora 产品设计文档
+# QuillNote 产品设计文档
 
 > 版本：0.0.10 | 更新日期：2026-07-27
 
@@ -33,7 +33,7 @@
 
 ### 1.1 产品定位
 
-Tydora 是一款基于 Tauri v2 + React 19 的桌面 Markdown 编辑器，专为知识管理和笔记场景设计。产品融合了 WYSIWYG 与源码两种编辑模式，提供 Obsidian 风格的双向链接系统，并支持将笔记发布为静态网站。
+QuillNote 是一款基于 Tauri v2 + React 19 的桌面 Markdown 编辑器，专为知识管理和笔记场景设计。产品融合了 WYSIWYG 与源码两种编辑模式，提供 Obsidian 风格的双向链接系统，并支持将笔记发布为静态网站。
 
 ### 1.2 核心理念
 
@@ -125,7 +125,7 @@ Tydora 是一款基于 Tauri v2 + React 19 的桌面 Markdown 编辑器，专为
 
 ### 3.1 双模式架构
 
-Tydora 提供两种编辑模式，通过 `Ctrl+/` 快捷键切换：
+QuillNote 提供两种编辑模式，通过 `Ctrl+/` 快捷键切换：
 
 | 模式 | 标识 | 引擎 | 适用场景 |
 |------|------|------|----------|
@@ -396,7 +396,7 @@ editor.commands.setContent(htmlOrMarkdown);
 
 ### 5.1 语法规范
 
-Tydora 支持 Obsidian 风格的 WikiLink 语法：
+QuillNote 支持 Obsidian 风格的 WikiLink 语法：
 
 | 语法 | 说明 | 示例 |
 |------|------|------|
@@ -1112,4 +1112,4 @@ Tydora 支持 Obsidian 风格的 WikiLink 语法：
 
 ---
 
-> 本文档基于 Tydora v0.0.10 代码库生成，反映当前已实现的功能。
+> 本文档基于 QuillNote v0.0.10 代码库生成，反映当前已实现的功能。

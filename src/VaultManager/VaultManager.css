@@ -58,7 +58,6 @@
 .vault-manager-titlebar-drag {
   flex: 1;
   height: 100%;
-  -webkit-app-region: drag;
 }
 
 .vault-manager-window-controls {

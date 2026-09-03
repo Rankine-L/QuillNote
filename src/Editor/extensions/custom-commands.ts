@@ -33,6 +33,16 @@ export function executeCommand(name: string, editor: Editor | null) {
     case "highlight":
       chain.toggleHighlight().run();
       break;
+    case "text-color": {
+      const color = window.prompt("输入文字颜色（例如 #ff0000 或 red）", "#ff0000");
+      if (color) {
+        chain.setColor(color).run();
+      }
+      break;
+    }
+    case "clear-color":
+      chain.unsetColor().run();
+      break;
     case "link": {
       const sel = window.getSelection();
       const defaultText = sel?.toString() || "";

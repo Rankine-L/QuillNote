@@ -1929,7 +1929,7 @@ function AboutSettingsContent() {
     if (!updateResult?.info) return;
     // 商店版切换到 GitHub 版会先卸载商店包（不可逆，之后改由 GitHub 更新），需确认
     if (storeVersion) {
-      const ok = await ask(t("settings.about.switchConfirm"), { title: "Tydora", kind: "warning" });
+      const ok = await ask(t("settings.about.switchConfirm"), { title: "QuillNote", kind: "warning" });
       if (!ok) return;
     }
     setDownloading(true);
@@ -1956,8 +1956,8 @@ function AboutSettingsContent() {
   return (
     <div className="settings-section">
       <div className="settings-about-header">
-        <img src={appIcon} alt="Tydora" className="settings-about-icon" />
-        <h2 className="settings-about-title">Tydora</h2>
+        <img src={appIcon} alt="QuillNote" className="settings-about-icon" />
+        <h2 className="settings-about-title">QuillNote</h2>
         <p className="settings-about-subtitle">{t("settings.about.description")}<br />{t("settings.about.lightweight")}</p>
       </div>
 
@@ -2018,7 +2018,7 @@ function AboutSettingsContent() {
         <span
           className="settings-link"
           style={{ cursor: "pointer" }}
-          onClick={() => invoke("open_url", { url: "https://github.com/zuorn/Tydora" })}
+          onClick={() => invoke("open_url", { url: "https://github.com/Rankine-L/QuillNote" })}
         >
           {t("settings.about.visitRepo")}
         </span>
@@ -2029,7 +2029,7 @@ function AboutSettingsContent() {
         <span
           className="settings-link"
           style={{ cursor: "pointer" }}
-          onClick={() => invoke("open_url", { url: "https://github.com/zuorn/Tydora/issues" })}
+          onClick={() => invoke("open_url", { url: "https://github.com/Rankine-L/QuillNote/issues" })}
         >
           Report an Issue
         </span>
@@ -2324,7 +2324,7 @@ export default function Settings() {
         {/* 左侧菜单 */}
         <nav className="settings-nav">
           {/* 顶部透明拖拽区域 */}
-          <div className="settings-nav-topbar" data-tauri-drag-region />
+          <div className="settings-nav-topbar" data-tauri-drag-region="deep" />
           <div className="settings-nav-content">
             {/* 搜索框 */}
             <div className="settings-nav-search">
@@ -2386,7 +2386,7 @@ export default function Settings() {
         {/* 右侧内容 */}
         <div className="settings-main-wrapper">
           {/* 内容区域顶部栏 */}
-          <div className="settings-main-topbar" data-tauri-drag-region>
+          <div className="settings-main-topbar" data-tauri-drag-region="deep">
             <div className="settings-titlebar-controls">
 <button
   className="settings-titlebar-btn settings-titlebar-close"

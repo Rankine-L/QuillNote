@@ -22,6 +22,8 @@ import { TableHeader } from "@tiptap/extension-table-header";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import Highlight from "@tiptap/extension-highlight";
+import { TextStyle } from "@tiptap/extension-text-style";
+import Color from "@tiptap/extension-color";
 import Typography from "@tiptap/extension-typography";
 import Heading from "@tiptap/extension-heading";
 import HardBreak from "@tiptap/extension-hard-break";
@@ -333,8 +335,8 @@ const TipTapEditor = forwardRef<EditorHandle, TipTapEditorProps>(
                 parse: {
                   // 解析 `![alt|300](src)` 中的宽度（Obsidian 风格）
                   setup(md: any) {
-                    if ((md as any).__tydoraImageWidthPatched) return;
-                    (md as any).__tydoraImageWidthPatched = true;
+                    if ((md as any).__quillnoteImageWidthPatched) return;
+                    (md as any).__quillnoteImageWidthPatched = true;
                     const esc = (v: string) =>
                       String(v).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
                     md.renderer.rules.image = (tokens: any[], idx: number) => {
@@ -735,6 +737,8 @@ const TipTapEditor = forwardRef<EditorHandle, TipTapEditorProps>(
         TaskItem.configure({
           nested: true,
         }),
+        TextStyle,
+        Color,
         // 高亮标记（==text==）同样去掉 (?:^|\s) 前缀限制，支持行中即时渲染
         Highlight.extend({
           addInputRules() {

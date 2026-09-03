@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useLayoutEffect, type ReactNode } from "react";
+import { useState, useEffect, useCallback, useRef, useLayoutEffect, useMemo, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "./i18n";
 import { createPortal } from "react-dom";
@@ -1943,7 +1943,8 @@ function Outline({
   content: string;
   onSelectHeading: (level: number, text: string, line: number) => void;
 }) {
-  const items = parseOutline(content);
+  const items = useMemo(() => parseOutline(content), [content]);
+  const tree = useMemo(() => buildOutlineTree(items), [items]);
   const [collapsedLines, setCollapsedLines] = useState<Set<number>>(new Set());
   const [activeLine, setActiveLine] = useState<number>(0);
 
@@ -1972,8 +1973,6 @@ function Outline({
       </div>
     );
   }
-
-  const tree = buildOutlineTree(items);
 
   return (
     <div className="sidebar-tree">
@@ -2259,14 +2258,25 @@ export default function Sidebar({
     };
   }, [isResizing, onWidthChange, startX, startWidth]);
 
+  // 大纲签名：仅当标题结构/文本变化时变化，用于强制大纲组件刷新
+  const outlineSignature = useMemo(() => {
+    const lines = content.split("\n");
+    const sig: string[] = [];
+    for (let i = 0; i < lines.length; i++) {
+      const m = lines[i].match(/^(#{1,6})\s+(.+)/);
+      if (m) sig.push(`${i}:${m[1].length}:${m[2].trim()}`);
+    }
+    return sig.join("|");
+  }, [content]);
+
   return (
     <div
       className={`sidebar${collapsed ? " collapsed" : ""}${isResizing ? " resizing" : ""}`}
       style={{ width: collapsed ? 0 : width }}
     >
-      <div className="sidebar-topbar" />
+      <div className="sidebar-topbar" data-tauri-drag-region="deep" />
 
-      <div className="sidebar-header">
+      <div className="sidebar-header" data-tauri-drag-region="deep">
         <div className="sidebar-tabs-wrapper">
           <button
             className={`sidebar-tab${activeTab === "files" ? " active" : ""}`}
@@ -2350,7 +2360,7 @@ export default function Sidebar({
       )}
 
       {activeTab === "outline" && (
-        <Outline content={content} onSelectHeading={onSelectHeading} />
+        <Outline key={outlineSignature} content={content} onSelectHeading={onSelectHeading} />
       )}
 
       {activeTab === "bookmarks" && (

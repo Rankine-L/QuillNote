@@ -74,7 +74,7 @@ jobs:
           VERSION=$(cat VERSION)
           {
             echo "RELEASE_BODY<<GITCLIFF_EOF"
-            echo "# Tydora v$VERSION"
+            echo "# QuillNote v$VERSION"
             echo ""
             if [ -s RELEASE_NOTES.md ]; then
               cat RELEASE_NOTES.md
@@ -91,23 +91,23 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
           tagName: v__VERSION__
-          releaseName: 'Tydora v__VERSION__'
+          releaseName: 'QuillNote v__VERSION__'
           releaseBody: ${{ steps.notes.outputs.RELEASE_BODY }}
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
 
-      # Windows: 额外生成便携版（免安装）zip，内容为 release 构建出的 Tydora.exe
+      # Windows: 额外生成便携版（免安装）zip，内容为 release 构建出的 QuillNote.exe
       - name: Package Windows portable zip
         if: matrix.platform == 'windows-latest'
         shell: pwsh
         run: |
           $version = (Get-Content VERSION).Trim()
-          $exe = 'src-tauri/target/release/Tydora.exe'
+          $exe = 'src-tauri/target/release/QuillNote.exe'
           if (-not (Test-Path $exe)) { throw "Release exe not found: $exe" }
           $outDir = 'src-tauri/target/release/bundle/portable'
           New-Item -ItemType Directory -Force -Path $outDir | Out-Null
-          $zip = Join-Path $outDir "Tydora_${version}_x64_portable.zip"
+          $zip = Join-Path $outDir "QuillNote_${version}_x64_portable.zip"
           Compress-Archive -Path $exe -DestinationPath $zip -Force
           Get-Item $zip | Select-Object FullName, Length
 

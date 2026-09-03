@@ -99,7 +99,7 @@ export default function GraphWindow() {
 
   return (
     <div className="graph-window">
-      <div className="graph-window-titlebar" data-tauri-drag-region>
+      <div className="graph-window-titlebar" data-tauri-drag-region="deep">
         <span className="graph-window-title">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 5, verticalAlign: 'middle', marginTop: -1 }}>
             <circle cx="12" cy="5" r="3" />

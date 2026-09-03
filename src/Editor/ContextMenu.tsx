@@ -137,6 +137,14 @@ const ICONS = {
       <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
     </svg>
   ),
+  palette: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22a10 10 0 1 1 10-10c0 1.5-1 2-2 2h-2a2 2 0 0 0-1.5 3.3c.3.4.5.7.5 1.2a1.5 1.5 0 0 1-1.5 1.5z" />
+      <circle cx="7.5" cy="11.5" r="1" fill="currentColor" />
+      <circle cx="11" cy="7.5" r="1" fill="currentColor" />
+      <circle cx="16" cy="9" r="1" fill="currentColor" />
+    </svg>
+  ),
   wikiLink: (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" />
@@ -163,6 +171,7 @@ function createIconRows(t: (key: string) => string): IconItem[][] {
       { name: "strike", label: t("editor.contextMenu.strikethrough"), shortcutId: "strike", icon: ICONS.strikethrough },
       { name: "inline-code", label: t("editor.contextMenu.inlineCode"), shortcutId: "inline-code", icon: ICONS.code },
       { name: "link", label: t("editor.contextMenu.link"), shortcutId: "link", icon: ICONS.link },
+      { name: "text-color", label: t("editor.contextMenu.textColor"), shortcutId: null, icon: ICONS.palette },
     ],
     // 第三行：块级格式
     [

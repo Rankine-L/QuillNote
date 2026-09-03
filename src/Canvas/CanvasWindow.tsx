@@ -243,7 +243,7 @@ export default function CanvasWindow() {
 
   return (
     <div className="canvas-window">
-      <div className="canvas-window-titlebar" data-tauri-drag-region>
+      <div className="canvas-window-titlebar" data-tauri-drag-region="deep">
         <span className="canvas-window-title">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 5, verticalAlign: 'middle', marginTop: -1 }}>
             <rect x="3" y="3" width="18" height="18" rx="2" />

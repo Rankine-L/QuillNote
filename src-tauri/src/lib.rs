@@ -180,7 +180,7 @@ fn spawn_editor_window(
     let safe_path = file_path.replace('\\', "/");
     let encoded_path = percent_encode_path(&safe_path);
     let url = format!("index.html?window=editor&file={}", encoded_path);
-    let title = format!("{} - Tydora", file_name);
+    let title = format!("{} - QuillNote", file_name);
 
     let mut builder = WebviewWindowBuilder::new(
         app,
@@ -254,7 +254,7 @@ async fn open_mindmap_window(
         label,
         tauri::WebviewUrl::App(url.into()),
     )
-    .title("思维导图 - Tydora")
+    .title("思维导图 - QuillNote")
     .inner_size(900.0, 600.0)
     .min_inner_size(400.0, 300.0)
     .visible(false)
@@ -287,7 +287,7 @@ async fn open_graph_window(
         label,
         tauri::WebviewUrl::App(url.into()),
     )
-    .title("关系图谱 - Tydora")
+    .title("关系图谱 - QuillNote")
     .inner_size(1000.0, 700.0)
     .min_inner_size(500.0, 400.0)
     .visible(false)
@@ -326,7 +326,7 @@ async fn open_canvas_window(
         label,
         tauri::WebviewUrl::App(url.into()),
     )
-    .title("白板 - Tydora")
+    .title("白板 - QuillNote")
     .inner_size(1200.0, 800.0)
     .min_inner_size(500.0, 400.0)
     .visible(false)
@@ -365,7 +365,7 @@ async fn open_canvas_in_new_window(
     let safe_path = canvas_path.replace('\\', "/");
     let encoded_path = percent_encode_path(&safe_path);
     let url = format!("index.html?window=canvas&file={}", encoded_path);
-    let title = format!("{} - Tydora", file_name);
+    let title = format!("{} - QuillNote", file_name);
 
     let window = WebviewWindowBuilder::new(
         &app,
@@ -473,7 +473,7 @@ async fn open_vault_in_new_window(app: tauri::AppHandle, vault_path: String, wid
     let safe_path = vault_path.replace('\\', "/");
     let encoded_path = percent_encode_path(&safe_path);
     let url = format!("index.html?window=editor&vault={}", encoded_path);
-    let title = format!("{} - Tydora", vault_name);
+    let title = format!("{} - QuillNote", vault_name);
 
     let window = WebviewWindowBuilder::new(
         &app,
@@ -1094,7 +1094,7 @@ fn compare_versions(a: &str, b: &str) -> std::cmp::Ordering {
 /// 构建带 User-Agent 的 HTTP 客户端（GitHub API 强制要求）
 fn github_http_client() -> Result<reqwest::Client, String> {
     reqwest::Client::builder()
-        .user_agent(format!("Tydora/{}", env!("CARGO_PKG_VERSION")))
+        .user_agent(format!("QuillNote/{}", env!("CARGO_PKG_VERSION")))
         .build()
         .map_err(|e| format!("创建 HTTP 客户端失败: {e}"))
 }
@@ -1106,7 +1106,7 @@ fn github_http_client() -> Result<reqwest::Client, String> {
 async fn check_github_update() -> Result<Option<GithubUpdateInfo>, String> {
     let client = github_http_client()?;
     let resp = client
-        .get("https://api.github.com/repos/zuorn/Tydora/releases/latest")
+        .get("https://api.github.com/repos/Rankine-L/QuillNote/releases/latest")
         .send()
         .await
         .map_err(|e| format!("请求 GitHub 失败: {e}"))?;
@@ -1167,7 +1167,7 @@ async fn switch_to_github_update(app: tauri::AppHandle, url: String) -> Result<(
         .map_err(|e| format!("下载安装包失败: {e}"))?;
     let total = resp.content_length();
 
-    let installer_path = std::env::temp_dir().join("tydora-github-setup.exe");
+    let installer_path = std::env::temp_dir().join("quillnote-github-setup.exe");
     use std::io::Write;
     let mut file =
         std::fs::File::create(&installer_path).map_err(|e| format!("创建临时文件失败: {e}"))?;
@@ -1185,21 +1185,21 @@ async fn switch_to_github_update(app: tauri::AppHandle, url: String) -> Result<(
 
     // 后台切换脚本（顺序很关键）：
     // 1. 等应用退出（前端已 exit）
-    // 2. 先静默安装 GitHub 版（NSIS 装到 %LOCALAPPDATA%\Programs\Tydora）
+    // 2. 先静默安装 GitHub 版（NSIS 装到 %LOCALAPPDATA%\Programs\QuillNote）
     // 3. 仅当新版安装成功（exe 存在）才卸载商店版，否则保留商店版避免用户丢失应用
     // 4. 启动新版
     let script = format!(
         "$ErrorActionPreference = 'Continue'\n\
          Start-Sleep -Seconds 3\n\
          Start-Process -FilePath '{installer}' -ArgumentList '/S' -Wait\n\
-         $newExe = \"$env:LOCALAPPDATA\\Programs\\Tydora\\Tydora.exe\"\n\
+         $newExe = \"$env:LOCALAPPDATA\\Programs\\QuillNote\\QuillNote.exe\"\n\
          if (Test-Path $newExe) {{\n\
-         \x20   Get-AppxPackage *Tydora* | Remove-AppxPackage\n\
+         \x20   Get-AppxPackage *QuillNote* | Remove-AppxPackage\n\
          \x20   Start-Process $newExe\n\
          }}\n",
         installer = installer_path.display()
     );
-    let script_path = std::env::temp_dir().join("tydora-switch-to-github.ps1");
+    let script_path = std::env::temp_dir().join("quillnote-switch-to-github.ps1");
     std::fs::write(&script_path, script).map_err(|e| format!("写入脚本失败: {e}"))?;
 
     #[cfg(target_os = "windows")]
@@ -1231,8 +1231,8 @@ async fn switch_to_github_update(app: tauri::AppHandle, url: String) -> Result<(
 /// 当前是否为便携版（zip 解压后直接运行）。
 ///
 /// 判断依据：非商店版（MSIX），且可执行文件不在 NSIS 安装器常用的安装目录
-/// （%LOCALAPPDATA%\Tydora、%LOCALAPPDATA%\Programs\Tydora、
-/// %ProgramFiles%\Tydora 等）中 → 视为便携版。
+/// （%LOCALAPPDATA%\QuillNote、%LOCALAPPDATA%\Programs\QuillNote、
+/// %ProgramFiles%\QuillNote 等）中 → 视为便携版。
 #[tauri::command]
 fn is_portable_version() -> bool {
     // 商店版（MSIX）不属于便携版
@@ -1247,13 +1247,13 @@ fn is_portable_version() -> bool {
         let Some(dir) = exe.parent() else {
             return false;
         };
-        // 仅当主程序名为 Tydora.exe 时才参与判断，避免误判
+        // 仅当主程序名为 QuillNote.exe 时才参与判断，避免误判
         let exe_name = exe
             .file_name()
             .and_then(|n| n.to_str())
             .unwrap_or("")
             .to_lowercase();
-        if exe_name != "tydora.exe" {
+        if exe_name != "quillnote.exe" {
             return false;
         }
         let dir_lower = dir.to_string_lossy().to_lowercase();
@@ -1261,12 +1261,12 @@ fn is_portable_version() -> bool {
         let mut candidates: Vec<String> = Vec::new();
         if let Ok(local) = std::env::var("LOCALAPPDATA") {
             let local = local.to_lowercase();
-            candidates.push(format!("{}\\tydora", local));
-            candidates.push(format!("{}\\programs\\tydora", local));
+            candidates.push(format!("{}\\quillnote", local));
+            candidates.push(format!("{}\\programs\\quillnote", local));
         }
         for key in ["ProgramFiles", "ProgramFiles(x86)"] {
             if let Ok(pf) = std::env::var(key) {
-                candidates.push(format!("{}\\tydora", pf.to_lowercase()));
+                candidates.push(format!("{}\\quillnote", pf.to_lowercase()));
             }
         }
         // 不在任何安装目录 → 视为便携版
@@ -1286,7 +1286,7 @@ fn is_portable_version() -> bool {
 async fn check_portable_update() -> Result<Option<GithubUpdateInfo>, String> {
     let client = github_http_client()?;
     let resp = client
-        .get("https://api.github.com/repos/zuorn/Tydora/releases/latest")
+        .get("https://api.github.com/repos/Rankine-L/QuillNote/releases/latest")
         .send()
         .await
         .map_err(|e| format!("请求 GitHub 失败: {e}"))?;
@@ -1325,7 +1325,7 @@ async fn check_portable_update() -> Result<Option<GithubUpdateInfo>, String> {
         Some(a) => a.browser_download_url.clone(),
         // 兜底：按命名规则构造下载地址
         None => format!(
-            "https://github.com/zuorn/Tydora/releases/download/v{version}/Tydora_{version}_x64_portable.zip"
+            "https://github.com/Rankine-L/QuillNote/releases/download/v{version}/QuillNote_{version}_x64_portable.zip"
         ),
     };
 
@@ -1339,7 +1339,7 @@ async fn check_portable_update() -> Result<Option<GithubUpdateInfo>, String> {
 
 /// 安装便携版更新（便携版通道）：
 /// 1. 下载便携 zip 到临时目录（通过事件报告进度）
-/// 2. 解压出新的 Tydora.exe 到当前 exe 同目录下的 Tydora.exe.new
+/// 2. 解压出新的 QuillNote.exe 到当前 exe 同目录下的 QuillNote.exe.new
 /// 3. 生成并启动后台 cmd 脚本（隐藏窗口）：等待应用退出 → 用 .new 覆盖
 ///    旧 exe → 启动新版 → 清理临时文件与脚本
 /// 4. 返回后前端退出应用，由后台脚本接管完成替换。
@@ -1361,7 +1361,7 @@ async fn install_portable_update(
     let total = resp.content_length();
 
     // 1. 流式下载 zip 到临时目录
-    let zip_path = std::env::temp_dir().join(format!("tydora-portable-{version}.zip"));
+    let zip_path = std::env::temp_dir().join(format!("quillnote-portable-{version}.zip"));
     use std::io::Write;
     let mut file =
         std::fs::File::create(&zip_path).map_err(|e| format!("创建临时文件失败: {e}"))?;
@@ -1377,12 +1377,12 @@ async fn install_portable_update(
     file.flush().map_err(|e| format!("写入失败: {e}"))?;
     drop(file);
 
-    // 2. 解压出新 exe 到当前 exe 同目录（Tydora.exe.new）
+    // 2. 解压出新 exe 到当前 exe 同目录（QuillNote.exe.new）
     let exe_dir = std::env::current_exe()
         .ok()
         .and_then(|p| p.parent().map(|p| p.to_path_buf()))
         .ok_or_else(|| "无法定位可执行文件目录".to_string())?;
-    let new_exe = exe_dir.join("Tydora.exe.new");
+    let new_exe = exe_dir.join("QuillNote.exe.new");
 
     let zip_file = std::fs::File::open(&zip_path).map_err(|e| format!("打开便携包失败: {e}"))?;
     let mut archive = zip::ZipArchive::new(zip_file).map_err(|e| format!("解析便携包失败: {e}"))?;
@@ -1412,19 +1412,19 @@ async fn install_portable_update(
         "@echo off\r\n\
          setlocal\r\n\
          :wait\r\n\
-         tasklist /FI \"IMAGENAME eq Tydora.exe\" | find /I \"Tydora.exe\" >nul\r\n\
+         tasklist /FI \"IMAGENAME eq QuillNote.exe\" | find /I \"QuillNote.exe\" >nul\r\n\
          if not errorlevel 1 (\r\n\
          \x20  ping -n 2 127.0.0.1 >nul\r\n\
          \x20  goto wait\r\n\
          )\r\n\
-         copy /Y \"%~dp0Tydora.exe.new\" \"%~dp0Tydora.exe\"\r\n\
+         copy /Y \"%~dp0QuillNote.exe.new\" \"%~dp0QuillNote.exe\"\r\n\
          if errorlevel 1 goto fail\r\n\
-         del /F /Q \"%~dp0Tydora.exe.new\"\r\n\
-         start \"\" \"%~dp0Tydora.exe\"\r\n\
+         del /F /Q \"%~dp0QuillNote.exe.new\"\r\n\
+         start \"\" \"%~dp0QuillNote.exe\"\r\n\
          del /F /Q \"%~f0\"\r\n\
          exit /b 0\r\n\
          :fail\r\n\
-         start \"\" \"%~dp0Tydora.exe\"\r\n\
+         start \"\" \"%~dp0QuillNote.exe\"\r\n\
          exit /b 1\r\n"
     );
     std::fs::write(&script_path, script).map_err(|e| format!("写入替换脚本失败: {e}"))?;

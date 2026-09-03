@@ -1,7 +1,7 @@
 {
-  "name": "tydora",
+  "name": "quillnote",
   "private": true,
-  "version": "0.1.8",
+  "version": "1.1.8",
   "type": "module",
   "dsh": {
     "bundle": {
@@ -59,6 +59,7 @@
     "@tiptap/extension-bullet-list": "^3.27.1",
     "@tiptap/extension-code": "^3.27.1",
     "@tiptap/extension-code-block-lowlight": "^3.27.1",
+    "@tiptap/extension-color": "^3.27.1",
     "@tiptap/extension-hard-break": "^3.27.1",
     "@tiptap/extension-heading": "^3.27.1",
     "@tiptap/extension-highlight": "^3.27.1",
@@ -77,6 +78,7 @@
     "@tiptap/extension-table-row": "^3.27.1",
     "@tiptap/extension-task-item": "^3.27.1",
     "@tiptap/extension-task-list": "^3.27.1",
+    "@tiptap/extension-text-style": "^3.27.1",
     "@tiptap/extension-typography": "^3.27.1",
     "@tiptap/pm": "^3.27.1",
     "@tiptap/react": "^3.27.1",

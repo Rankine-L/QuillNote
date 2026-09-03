@@ -44,8 +44,8 @@ export function clampWindowToMonitor(
   // 钳制宽高：不超过显示器可用区域
   const maxWidth = mw - EDGE_MARGIN_X * 2;
   const maxHeight = mh - EDGE_MARGIN_TOP - EDGE_MARGIN_BOTTOM;
-  const width = Math.max(400, Math.min(state.width, maxWidth));
-  const height = Math.max(300, Math.min(state.height, maxHeight));
+  const width = Math.max(800, Math.min(state.width, maxWidth));
+  const height = Math.max(600, Math.min(state.height, maxHeight));
 
   // 钳制位置：确保窗口在显示器可见区域内
   const x = Math.max(mx + 20, Math.min(state.x, mx + mw - width - 20));

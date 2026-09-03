@@ -392,8 +392,8 @@ export default function VaultManagerWindow() {
     // Home view
     return (
       <div className="vault-manager-content">
-        <img src={appIcon} alt="Tydora" className="vault-manager-icon" />
-        <h1 className="vault-manager-title">Tydora</h1>
+        <img src={appIcon} alt="QuillNote" className="vault-manager-icon" />
+        <h1 className="vault-manager-title">QuillNote</h1>
         <p className="vault-manager-version">{version ? t("vaultManager.version", { version }) : ""}</p>
         <p className="vault-manager-subtitle">
           {t("vaultManager.subtitle").split("\n").map((line, i) => (
@@ -449,7 +449,7 @@ export default function VaultManagerWindow() {
       <div className="vault-manager-layout">
         {/* Left sidebar with its own titlebar */}
         <div className="vault-manager-sidebar">
-          <div data-tauri-drag-region className="vault-manager-titlebar vault-manager-titlebar-sidebar">
+          <div data-tauri-drag-region="deep" className="vault-manager-titlebar vault-manager-titlebar-sidebar">
             <div className="vault-manager-titlebar-drag" data-tauri-drag-region />
           </div>
           <div className="vault-manager-list">
@@ -526,7 +526,7 @@ export default function VaultManagerWindow() {
 
         {/* Right content area with its own titlebar */}
         <div className="vault-manager-main">
-          <div data-tauri-drag-region className="vault-manager-titlebar vault-manager-titlebar-main">
+          <div data-tauri-drag-region="deep" className="vault-manager-titlebar vault-manager-titlebar-main">
             <div className="vault-manager-titlebar-drag" data-tauri-drag-region />
             <div className="vault-manager-window-controls">
               <button className="vault-manager-window-btn" onClick={handleMinimize} title={t("vaultManager.minimize")}>
